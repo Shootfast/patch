@@ -118,7 +118,7 @@ reallocate_lines(size_t *lines_allocated)
 	size_t	new_size;
 
 	new_size = *lines_allocated * 3 / 2;
-	p = reallocarray(i_ptr, new_size + 2, sizeof(char *));
+	p = realloc(i_ptr, (new_size + 2) * sizeof(char *));
 	if (p == NULL) {	/* shucks, it was a near thing */
 		munmap(i_womp, i_size);
 		i_womp = NULL;

@@ -225,9 +225,9 @@ main(int argc, char *argv[])
 		if (outname == NULL)
 			outname = xstrdup(filearg[0]);
 
-		/* for ed script just up and do it and exit */
+		/* No ed support on windows */
 		if (diff_type == ED_DIFF) {
-			do_ed_script();
+			error = 1;
 			continue;
 		}
 		/* initialize the patched file */
@@ -502,7 +502,7 @@ get_some_switches(void)
 	Argv_last = Argv;
 	if (!Argc)
 		return;
-	optreset = optind = 1;
+	optind = 1;
 	while ((ch = getopt_long(Argc, Argv, options, longopts, NULL)) != -1) {
 		switch (ch) {
 		case 'b':

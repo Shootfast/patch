@@ -93,20 +93,24 @@ find_backup_file_name(const char *file)
 static int
 max_backup_version(const char *file, const char *dir)
 {
+	int	highest_version = 0;
+#ifdef _WIN32
+#error "not implemented"
+#else
 	DIR	*dirp;
 	struct dirent	*dp;
-	int	highest_version, this_version;
+	int this_version;
 	size_t	file_name_length;
 
 	dirp = opendir(dir);
 	if (dirp == NULL)
 		return 0;
 
-	highest_version = 0;
 	file_name_length = strlen(file);
 
 	while ((dp = readdir(dirp)) != NULL) {
-		if (dp->d_namlen <= file_name_length)
+		int namelen = strlen(dp->d_name);
+		if (namelen <= file_name_length)
 			continue;
 
 		this_version = version_number(file, dp->d_name, file_name_length);
@@ -114,6 +118,7 @@ max_backup_version(const char *file, const char *dir)
 			highest_version = this_version;
 	}
 	closedir(dirp);
+#endif
 	return highest_version;
 }
 
